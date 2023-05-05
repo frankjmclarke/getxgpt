@@ -1,26 +1,23 @@
 import 'package:get/get.dart';
-
+import '../model/user.dart';
 
 class UserViewModel {
-  final RxString _name;
-  final RxInt _age;
+  final user = User(name: '', age: 0).obs;
 
-  UserViewModel({String name = '', int age = 0})
-      : _name = name.obs,
-        _age = age.obs;
+  String get name => user.value.name;
+  set name(String value) => user.update((val) => val!.name = value);
 
-  String get name => _name.value;
-  set name(String value) => _name.value = value;
-
-  int get age => _age.value;
-  set age(int value) => _age.value = value;
+  int get age => user.value.age;
+  set age(int value) => user.update((val) => val!.age = value);
 
   void setAgeFromString(String value) {
-    _age.value = int.tryParse(value) ?? 0;
+    user.update((val) => val!.age = int.tryParse(value) ?? 0);
   }
 
   void saveUser() {
-    _name.value = 'saved';
-    _age.value = 123;
+    user.update((val) {
+      val!.name = 'saved';
+      val.age = 123;
+    });
   }
 }

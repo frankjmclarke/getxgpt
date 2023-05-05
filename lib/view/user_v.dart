@@ -23,10 +23,11 @@ class UserView extends StatelessWidget {
       ),
       body: Column(
         children: [
-          TextField(
+          Obx(() => TextField(
+            controller: TextEditingController(text: userViewModel.name.toString()),
             onChanged: (value) => userViewModel.name = value,
             decoration: const InputDecoration(hintText: 'Name'),
-          ),
+          )),
           Obx(() => TextField(
             controller: TextEditingController(text: userViewModel.age.toString()),
             onChanged: (text) => userViewModel.setAgeFromString(text),
