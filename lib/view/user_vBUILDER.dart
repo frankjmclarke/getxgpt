@@ -30,14 +30,14 @@ class UserView extends StatelessWidget {
         children: [
           GetBuilder<UserViewModel>(
             builder: (controller) => TextField(
-              controller: TextEditingController(text: controller.name),
+              controller: nameController,
               onChanged: (text) => controller.name = text,
               decoration: const InputDecoration(hintText: 'Name'),
             ),
           ),
           GetBuilder<UserViewModel>(
             builder: (controller) => TextField(
-              controller: TextEditingController(text: controller.age.toString()),
+              controller: ageController,
               onChanged: (text) => controller.setAgeFromString(text),
               decoration: const InputDecoration(
                 labelText: 'Enter age',

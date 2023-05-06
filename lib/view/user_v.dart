@@ -12,15 +12,15 @@ rebuilds itself when its value changes.
 class UserView extends StatelessWidget {
   final UserViewModel userViewModel = Get.put(UserViewModel());
 
-  final TextEditingController nameController = TextEditingController();
-  final TextEditingController ageController = TextEditingController();
+ // final TextEditingController nameController = TextEditingController();
+ // final TextEditingController ageController = TextEditingController();
 
   UserView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    nameController.text = userViewModel.name;
-    ageController.text = userViewModel.age.toString();
+   // nameController.text = userViewModel.name;
+   // ageController.text = userViewModel.age.toString();
 
     return Scaffold(
       appBar: AppBar(
