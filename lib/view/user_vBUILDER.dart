@@ -3,10 +3,10 @@ import 'package:get/get.dart';
 import 'package:getxgpt/view/user_vm.dart';
 
 /*
-we're using Obx(() to bind the age observable variable to the TextField. When
-the age value changes, the TextField will be updated automatically.
-Note that we're not using Obx(() for the name variable because TextField already
-rebuilds itself when its value changes.
+On Update() is needed to update the UI
+GetX is still more economical than any other reactive state manager, but it
+consumes a little more RAM than GetBuilder. GetBuilder has the most simplistic
+approach that exists, of storing a widget's hashcode and its StateSetter
  */
 
 class UserView extends StatelessWidget {

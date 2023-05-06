@@ -25,18 +25,40 @@ class UserView extends StatelessWidget {
       ),
       body: Column(
         children: [
-          Obx(() => TextField(
-            controller: TextEditingController(text: userViewModel.name),
-            onChanged: (value) => userViewModel.name = value,
-            decoration: const InputDecoration(hintText: 'Name'),
-          )),
+          GetX<UserViewModel>(          //  Getx allows init, dispose etc, uses more ram
+            builder: (controller) => TextField(
+              controller: TextEditingController(text: controller.name),
+              onChanged: (txt){
+                controller.name =  txt;
+              },
+              onTapOutside: (xx) {
+                //userViewModel.name =  controller.name;
+                userViewModel.setNameFromString(controller.name);
+                //userViewModel.setNameFromString( controller.name);
+              },
+              decoration: const InputDecoration(hintText: 'Name'),
+            ),
+          ),
           Obx(() => TextField(
             controller: TextEditingController(text: userViewModel.age.toString()),
-            onChanged: (text) => userViewModel.setAgeFromString(text),
+            onChanged: (text) => userViewModel.age= int.tryParse(text) ?? 0,
+            onTapOutside: (text) {
+
+              userViewModel.setAgeFromInt( userViewModel.age);
+
+            },
             decoration: const InputDecoration(
               labelText: 'Enter age',
             ),
           )),
+          const SizedBox(height: 20),
+          Obx(() {
+            return Text('Age: ${userViewModel.age}');
+          }),
+          Obx(() {
+            return Text('Name: ${Get.find<UserViewModel>().user.value.name}');
+          }),
+          const SizedBox(height: 20),
           ElevatedButton(
             onPressed: userViewModel.saveUser,
             child: const Text('Save'),

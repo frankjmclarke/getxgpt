@@ -27,4 +27,17 @@ class UserViewModel extends GetxController {
     user.age = 10;
     update(); // add this line to trigger rebuild
   }
+
+  @override
+  void onInit() {
+    // TODO: implement onInit
+    super.onInit();
+  }
+
+  @override
+  void onClose() {
+    // TODO: implement onClose
+    super.onClose();
+  }
+
 }
