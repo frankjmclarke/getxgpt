@@ -12,38 +12,31 @@ rebuilds itself when its value changes.
 class UserView extends StatelessWidget {
   final UserViewModel userViewModel = Get.put(UserViewModel());
 
- // final TextEditingController nameController = TextEditingController();
- // final TextEditingController ageController = TextEditingController();
-
   UserView({super.key});
 
+  void submitText(String text) {
+    // Do something with the text, such as save it to a database or display it in a UI element
+  }
   @override
   Widget build(BuildContext context) {
-   // nameController.text = userViewModel.name;
-   // ageController.text = userViewModel.age.toString();
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('User'),
       ),
       body: Column(
         children: [
-          GetBuilder<UserViewModel>(
-            builder: (controller) => TextField(
-              controller: TextEditingController(text: controller.name),
-              onChanged: (text) => controller.name = text,
-              decoration: const InputDecoration(hintText: 'Name'),
+          Obx(() => TextField(
+            controller: TextEditingController(text: userViewModel.name),
+            onChanged: (value) => userViewModel.name = value,
+            decoration: const InputDecoration(hintText: 'Name'),
+          )),
+          Obx(() => TextField(
+            controller: TextEditingController(text: userViewModel.age.toString()),
+            onChanged: (text) => userViewModel.setAgeFromString(text),
+            decoration: const InputDecoration(
+              labelText: 'Enter age',
             ),
-          ),
-          GetBuilder<UserViewModel>(
-            builder: (controller) => TextField(
-              controller: TextEditingController(text: controller.age.toString()),
-              onChanged: (text) => controller.setAgeFromString(text),
-              decoration: const InputDecoration(
-                labelText: 'Enter age',
-              ),
-            ),
-          ),
+          )),
           ElevatedButton(
             onPressed: userViewModel.saveUser,
             child: const Text('Save'),
