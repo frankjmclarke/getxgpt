@@ -1,23 +1,29 @@
 import 'package:get/get.dart';
-import '../model/user.dart';
+import 'package:get/get_state_manager/src/simple/get_controllers.dart';
+import 'package:getxgpt/model/user.dart';
 
-class UserViewModel {
+class UserViewModel extends GetxController {
   final user = User(name: '', age: 0).obs;
 
   String get name => user.value.name;
-  set name(String value) => user.update((val) => val!.name = value);
+  set name(String value) => user.update((u) => u?.name = value);
 
   int get age => user.value.age;
-  set age(int value) => user.update((val) => val!.age = value);
+  set age(int value) => user.update((u) => u?.age = value);
+  /*
+  set name(String value) => user.value = user.value.copyWith(name: value);
+  set age(int value) => user.value = user.value.copyWith(age: value);
+   */
 
-  void setAgeFromString(String value) {
-    user.update((val) => val!.age = int.tryParse(value) ?? 0);
+  void setAgeFromString(String text) {
+    age = int.tryParse(text) ?? 0;
+    name="SSSSSSSSSSSSSSS";
+    //user.value = User(name: 'SSSSSSSSS', age: age);//you have to update the whole thing
+    update(); // add this line to trigger rebuild
   }
 
   void saveUser() {
-    user.update((val) {
-      val!.name = 'saved';
-      val.age = 123;
-    });
+    user.value = User(name: 'Wod', age: 10);
+    update(); // add this line to trigger rebuild
   }
 }
