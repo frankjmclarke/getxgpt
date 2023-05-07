@@ -18,13 +18,18 @@ class UserViewModel extends GetxController {
 
   void setAgeFromString(String text) {
     age = int.tryParse(text) ?? 0;
-    name = "SSSSSSSSSSSSSSS";
+    //name = "SSSSSSSSSSSSSSS";
     update(); // add this line to trigger rebuild
   }
 
   void saveUser() {
     user.name = 'Wod';
     user.age = 10;
+    update(); // add this line to trigger rebuild
+  }
+
+  void setAgeFromInt(int num) {
+    user.age = num;
     update(); // add this line to trigger rebuild
   }
 

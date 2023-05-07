@@ -21,9 +21,16 @@ class UserViewModel extends GetxController {
     });
   }
 
+  void setAgeFromInt(int num) {
+    user.update( (user) { // you have to use update for the class
+      // user?.name = 'Jonny';
+      user?.age = num;
+    });
+
+  }
   @override
   void onInit() {
-    // TODO: implement onInit
+   // debounce(user.value.age, (_) => null);
     super.onInit();
   }
 

@@ -13,6 +13,7 @@ rebuilds itself when its value changes.
 class UserView extends StatelessWidget {
   final UserViewModel userViewModel = Get.put(UserViewModel());
 
+
   UserView({super.key});
 
   void submitText(String text) {
@@ -31,24 +32,35 @@ class UserView extends StatelessWidget {
           GetX<UserViewModel>(
             //init: userViewModel,
             builder: (controller) => TextField(
-              controller: TextEditingController(text: controller.name),
-              onChanged: (value) => controller.name = value,
+              controller: userViewModel.textController,
+              onChanged: (text) {
+                userViewModel.textController?.value = TextEditingValue(
+                  text: text,
+                  selection: TextSelection.collapsed(offset: text.length),
+                );
+                userViewModel.setName(text);
+              },
               decoration: const InputDecoration(hintText: 'Name'),
             ),
           ),
           const SizedBox(height: 20),
-          Obx(() {
-            return Text('Stored Count: ${userViewModel.name}');
-          }),
           Obx(() => TextField(
-                controller:
-                    TextEditingController(text: userViewModel.age.toString()),
-                onChanged: (text) => userViewModel.setAgeFromString(text),
+                controller: userViewModel.numController,
+            onChanged: (text) {
+              userViewModel.numController?.value = TextEditingValue(
+                text: text,
+                selection: TextSelection.collapsed(offset: text.length),
+              );
+              userViewModel.setAgeFromString(text);
+            },
                 decoration: const InputDecoration(
                   labelText: 'Enter age',
                 ),
               )),
-
+          const SizedBox(height: 16),
+          Obx(() => Text("Name entered: ${userViewModel.textController.value.text}")),
+          const SizedBox(height: 16),
+          Obx(() => Text("Number entered: ${userViewModel.numController.value.text}")),
           ElevatedButton(
             onPressed: userViewModel.saveUser,
             child: const Text('Save'),

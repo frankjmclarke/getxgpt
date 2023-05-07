@@ -1,22 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:getxgpt/view/user_v.dart';
 import 'package:getxgpt/view/user_vm.dart';
-
-/*
-we're using Obx(() to bind the age observable variable to the TextField. When
-the age value changes, the TextField will be updated automatically.
-Note that we're not using Obx(() for the name variable because TextField already
-rebuilds itself when its value changes.
- */
 
 class UserView extends StatelessWidget {
   final UserViewModel userViewModel = Get.put(UserViewModel());
 
-  UserView({super.key});
+  UserView({Key? key}) : super(key: key);
 
   void submitText(String text) {
     // Do something with the text, such as save it to a database or display it in a UI element
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,40 +20,40 @@ class UserView extends StatelessWidget {
       ),
       body: Column(
         children: [
-          GetX<UserViewModel>(          //  Getx allows init, dispose etc, uses more ram
+          //  Getx allows init, dispose etc, uses more ram
+          GetX<UserViewModel>(
             builder: (controller) => TextField(
-              controller: TextEditingController(text: controller.name),
-              onChanged: (txt){
-                controller.name =  txt;
-              },
-              onTapOutside: (xx) {
-                //userViewModel.name =  controller.name;
-                userViewModel.setNameFromString(controller.name);
-                //userViewModel.setNameFromString( controller.name);
+              controller: userViewModel.textController,
+              onChanged: (text) {
+                userViewModel.textController?.value = TextEditingValue(
+                  text: text,
+                  selection: TextSelection.collapsed(offset: text.length),
+                );
+                userViewModel.setName(text);
               },
               decoration: const InputDecoration(hintText: 'Name'),
             ),
           ),
+
           Obx(() => TextField(
-            controller: TextEditingController(text: userViewModel.age.toString()),
-            onChanged: (text) => userViewModel.age= int.tryParse(text) ?? 0,
-            onTapOutside: (text) {
-
-              userViewModel.setAgeFromInt( userViewModel.age);
-
+            controller: userViewModel.numController,
+            onChanged: (text) {
+              userViewModel.numController?.value = TextEditingValue(
+                text: text,
+                selection: TextSelection.collapsed(offset: text.length),
+              );
+              userViewModel.setAgeFromString(text);
             },
             decoration: const InputDecoration(
               labelText: 'Enter age',
             ),
           )),
-          const SizedBox(height: 20),
-          Obx(() {
-            return Text('Age: ${userViewModel.age}');
-          }),
-          Obx(() {
-            return Text('Name: ${Get.find<UserViewModel>().user.value.name}');
-          }),
-          const SizedBox(height: 20),
+
+          const SizedBox(height: 16),
+          Obx(() => Text("Name entered: ${userViewModel.name}")),
+          const SizedBox(height: 16),
+          Obx(() => Text("Number entered: ${userViewModel.age ?? "0"}")),
+
           ElevatedButton(
             onPressed: userViewModel.saveUser,
             child: const Text('Save'),
